@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/Books.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Obstacle.gd" type="Script" id=2]
+
+[node name="Obstacle" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="UpperBooks" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -116 )
+
+[node name="LowerBooks" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, 115 )
