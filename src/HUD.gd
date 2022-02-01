@@ -19,7 +19,6 @@ func _physics_process(delta):
 func update_count():
 	if is_instance_valid(player_group):
 		player_count = player_group.get_child_count()
-		print(player_count)
 
 func update_counter_text():
 	rogerin_counter.text = _format_count_str(player_count)

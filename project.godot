@@ -9,22 +9,22 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Object",
+"base": "",
 "class": "GANetwork",
 "language": "NativeScript",
 "path": "res://lib/GANetwork.gdns"
 }, {
-"base": "Object",
+"base": "",
 "class": "GDNetwork",
 "language": "NativeScript",
 "path": "res://lib/GDNetwork.gdns"
 }, {
-"base": "Object",
+"base": "",
 "class": "Network",
 "language": "NativeScript",
 "path": "res://lib/Network.gdns"
 }, {
-"base": "Object",
+"base": "",
 "class": "Population",
 "language": "NativeScript",
 "path": "res://lib/Population.gdns"
