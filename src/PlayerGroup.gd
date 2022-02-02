@@ -1,9 +1,11 @@
 extends Node2D
 
+var hud: Control
+var spawn: Node2D
+
 export var num_players := 0
 var num_deaths := 0
 
-var spawn: Node2D
 var pop := Population.new()
 var player_res = preload("res://src/Player.tscn")
 var player_pos := Vector2.ZERO
@@ -21,13 +23,14 @@ func _ready():
 	pop.crossover_rate = .3
 	pop.kill_worse_rate = .2 # remove 20% worse individuals
 	pop.keep_best_rate = .1 # keep/don't mutate 10% best individuals
-	pop.size = 10 # number of individuals
+	pop.size = 100 # number of individuals
 	pop.init(net)
 	pop.randomize() # randomize weights
 	
 	player_pos = get_viewport_rect().size * Vector2(0.1, 0.4)
 	
 	spawn = get_tree().current_scene.get_node("Spawn")
+	hud = get_tree().current_scene.get_node("HUD")
 	
 	create_players()
 
@@ -45,10 +48,22 @@ func create_players():
 func _on_Player_death():
 	num_deaths += 1
 	if num_deaths == num_players:
-		for player in get_children():
-			if is_instance_valid(player):
-				player.queue_free()
-		spawn.stop()
-		spawn.start()
-		pop.call_deferred("epoch") # generate next generation
-		call_deferred("create_players")
+		_on_generation_end()
+
+func _on_generation_end():
+	var fitnesses = []
+	for player in get_children():
+		if is_instance_valid(player):
+			fitnesses.append(player.net.fitness)
+			player.queue_free()
+	
+	fitnesses.sort()
+	fitnesses.invert()
+	hud.update_Score(fitnesses.slice(0,6))
+	hud.reset_Time()
+	hud.update_Gen()
+	
+	spawn.stop()
+	spawn.start()
+	pop.call_deferred("epoch") # generate next generation
+	call_deferred("create_players")

@@ -8,6 +8,9 @@ var net # Typing went wrong
 var vel := 0.0
 var next_obstacle_pos_info = [0,0,0]
 
+var score = 0
+var time_alive = 0
+
 var is_dead := false
 signal die
 
@@ -15,7 +18,10 @@ func _physics_process(delta):
 	var y_axis := get_input_from_net()
 	
 	vel += GRAVITY*delta
-	if y_axis > 0:
+	time_alive += delta
+	if is_instance_valid(net):
+		net.fitness = time_alive + 2*score
+	if y_axis > 0.5:
 		vel = -JUMP_SPEED
 	
 	move_and_slide(
